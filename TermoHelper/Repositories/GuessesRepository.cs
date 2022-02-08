@@ -17,6 +17,7 @@
         public HashSet<char> lettersPresent;
         public HashSet<char> lettersMissing;
         List<HashSet<char>> yellowLetters;
+        List<HashSet<char>> forbiddenLetters;
 
         public GuessesRepository()
         {
@@ -40,10 +41,12 @@
             lettersMissing = new HashSet<char>();
 
             yellowLetters = new List<HashSet<char>>();
+            forbiddenLetters = new List<HashSet<char>>();
 
             for (int i = 0; i < 5; i++)
             {
                 yellowLetters.Add(new HashSet<char>());
+                forbiddenLetters.Add(new HashSet<char>());
             }
         }
 
@@ -70,6 +73,12 @@
                     }
 
                     if (yellowLetters[i].Contains(answer[i]))
+                    {
+                        valid = false;
+                        break;
+                    }
+
+                    if (forbiddenLetters[i].Contains(answer[i]))
                     {
                         valid = false;
                         break;
@@ -111,9 +120,12 @@
 
             for (int i = 0; i < 5; i++)
             {
-                if (!lettersPresent.Contains(guess[i]))
+                if (outcome[i] == GuessOutcome.NotPresent)
                 {
-                    lettersMissing.Add(guess[i]);
+                    if (!lettersPresent.Contains(guess[i]))
+                        lettersMissing.Add(guess[i]);
+
+                    forbiddenLetters[i].Add(guess[i]);
                 }
             }
 
