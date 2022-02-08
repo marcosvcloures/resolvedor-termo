@@ -25,7 +25,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-m8h0pOyvxexyQN0m2rhZdGzfkJ4IoN+ojwFDs9YTHfg=",
+      "hash": "sha256-tSXH92nJh1T1mfjJ+yg7MtjbT1ociDKAcx3LEQZ9Dng=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -145,7 +145,7 @@
       "url": "_framework\/TermoHelper.dll"
     },
     {
-      "hash": "sha256-rqftr7RoL2vt8m40QrLflyxR8W79giH99hfgUJgpmw8=",
+      "hash": "sha256-af\/4oCnNkZsrjlrsuSGNzds65mrMD1ORzY+aYKp1wss=",
       "url": "_framework\/dotnet.6.0.0-rc.2.21480.5.z29f6th9ri.js"
     },
     {
