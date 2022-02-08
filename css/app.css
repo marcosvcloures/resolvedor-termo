@@ -95,6 +95,7 @@ a, .btn-link {
 
 .bestGuesses {
     display: flex;
+    flex-wrap: wrap;
 }
 
     .bestGuesses span ~ span:before {
@@ -122,12 +123,12 @@ a, .btn-link {
 .keyboard {
     bottom: 10px;
     display: flex;
-    width: 500px;
+    width: 100vw;
     flex-wrap: wrap;
     justify-content: center;
     position: fixed;
     left: 50%;
-    margin-left: -250px;
+    margin-left: -50vw;
 }
 
     .keyboard .Missing {
