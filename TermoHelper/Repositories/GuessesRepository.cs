@@ -102,12 +102,16 @@
                     lettersCorrect[i] = guess[i];
                     lettersPresent.Add(guess[i]);
                 }
-                else if(outcome[i] == GuessOutcome.Present)
+                else if (outcome[i] == GuessOutcome.Present)
                 {
                     lettersPresent.Add(guess[i]);
                     yellowLetters[i].Add(guess[i]);
                 }
-                else if(!lettersPresent.Contains(guess[i]))
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                if (!lettersPresent.Contains(guess[i]))
                 {
                     lettersMissing.Add(guess[i]);
                 }
