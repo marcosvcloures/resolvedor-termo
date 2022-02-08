@@ -39,11 +39,15 @@
 
             @foreach (var guess in GuessesRepository.BestGuesses)
             {
-                <span> @guess </span>
+                <span style="cursor: pointer" @onclick="() => currentGuess = guess.Select(p => (char?) p).ToList()"> @guess </span>
             }
         </div>
     }
-    <a href="#" @onclick="Reset">recomeçar</a>
+    <div class="links">
+        <a href="#" @onclick="Reset">recomeçar</a>
+        <TermoHelper.Components.HowToUse />
+     </div>
+    <TermoHelper.Components.Keyboard OnKeyPress="KeyDownHandler" />
 </div>
 @code {
     protected ElementReference currentGuessElement;

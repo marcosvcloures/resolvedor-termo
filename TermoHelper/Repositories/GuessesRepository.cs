@@ -13,19 +13,20 @@
         private List<string> answers;
         private List<Tuple<string, int>> bestGuesses;
         private Trie tree;
-        List<char> lettersCorrect;
-        HashSet<char> lettersPresent;
-        HashSet<char> lettersMissing;
+        public List<char> lettersCorrect;
+        public HashSet<char> lettersPresent;
+        public HashSet<char> lettersMissing;
         List<HashSet<char>> yellowLetters;
 
         public GuessesRepository()
         {
             Reset();
+
+            dictionary = Words.Dictionary.words.Distinct().ToList();
         }
 
         public void Reset()
         {
-            dictionary = Words.Dictionary.words.ToList();
             answers = Words.Answers.words.Distinct().ToList();
             bestGuesses = new List<Tuple<string, int>>();
             tree = new Trie();

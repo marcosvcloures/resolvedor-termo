@@ -1,4 +1,6 @@
-﻿using System.Collections.Concurrent;
+﻿#if Parallel
+using System.Collections.Concurrent;
+#endif
 
 namespace TermoHelper
 {

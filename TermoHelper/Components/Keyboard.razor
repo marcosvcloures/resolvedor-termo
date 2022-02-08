@@ -1,0 +1,44 @@
+﻿@inject GuessesRepository GuessesRepository
+
+<div class="keyboard">
+    @foreach(var key in alphabet)
+    {        
+        <button @onclick="@(() => OnKeyPress.InvokeAsync(key))" class="@KeyToClass(key)">
+            @KeyToChar(key)
+        </button>
+    }
+</div>
+
+@code {
+    [Parameter] 
+    public EventCallback<string> OnKeyPress { get; set; }
+
+    public List<string> alphabet = new List<string>(new string[] { "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Backspace", "Z", "X", "C", "V", "B", "N", "M", "Enter" });
+
+    public string KeyToChar(string key)
+    {
+        if(key == "Backspace")
+            return "⌫";
+
+        return key;
+    }
+
+    public string KeyToClass(string keyStr)
+    {
+        if (keyStr.Length > 1)
+            return "";
+
+        var key = keyStr.ToLowerInvariant()[0];
+
+        if(GuessesRepository.lettersCorrect.Contains(key))
+            return "Correct";
+
+        if(GuessesRepository.lettersPresent.Contains(key))
+            return "Present";
+            
+        if(GuessesRepository.lettersMissing.Contains(key))
+            return "Missing";
+
+        return "";
+    }
+}

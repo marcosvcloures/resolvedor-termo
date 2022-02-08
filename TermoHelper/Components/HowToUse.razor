@@ -1,0 +1,13 @@
+﻿<a href="#" @onclick="() => Open = true">como usar</a>
+
+<div class="howto @(Open ? "open" : "closed")" @onclick="() => Open = false">
+    <div>
+        <h3>Como usar</h3>
+
+        Digite a palavra que você chutou, clique nos quadrados até ficarem com a mesma cor da resposta e aperte enter.
+    </div>
+</div>
+
+@code {
+    public bool Open { get; set; } = false;
+}
