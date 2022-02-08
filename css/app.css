@@ -69,6 +69,7 @@ a, .btn-link {
 }
 
 .letter {
+    cursor: pointer;
     display: flex;
     font-size: 2em;
     width: 2em;
@@ -105,7 +106,66 @@ a, .btn-link {
         margin-right: 0.2em;
     }
 
-.content a {
+.content links {
     display: flex;
     justify-content: center;
+}
+
+.keyboard button {
+    margin: 2px;
+    flex-basis: calc(10% - 4px);
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.keyboard {
+    bottom: 10px;
+    display: flex;
+    width: 500px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: fixed;
+    left: 50%;
+    margin-left: -250px;
+}
+
+    .keyboard .Missing {
+        background: #aaa;
+    }
+
+
+    .keyboard .Present {
+        background: palegoldenrod;
+    }
+
+    .keyboard .Correct {
+        background: lightgreen;
+    }
+
+.howto {
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 10;
+    justify-content: center;
+    align-items: center;
+    background: #eee9;
+    backdrop-filter: blur(2px);
+}
+
+.howto.closed {
+    display: none;
+}
+
+.links {
+    display: flex;
+    justify-content: center;
+}
+
+.links a {
+    margin: 0 20px;
 }
