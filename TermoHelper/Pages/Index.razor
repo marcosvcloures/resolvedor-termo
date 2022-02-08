@@ -1,0 +1,138 @@
+﻿
+@page "/"
+@inject IJSRuntime JSRuntime
+@inject GuessesRepository GuessesRepository
+
+<PageTitle>resolve termo</PageTitle>
+
+<div class="content">
+    <div>
+        @foreach(var guess in guessHistory)
+        {
+            <div class="word">
+                @for (int i = 0; i < guess.Item1.Length; i++)
+                {
+                    var index = i;
+
+                    <div class="@guess.Item2[index] letter">
+                        @guess.Item1[index]
+                    </div>
+                }
+            </div>
+        }
+
+        <div class="word">
+            @for (int i = 0; i < currentGuess.Count; i++)
+            {
+                var index = i;
+
+                <div class="@currentState[index] letter" @onclick="e => changeState(index)">
+                    @(currentGuess[index] ?? ' ')
+                </div>
+            }
+        </div>
+    </div>
+    @if (GuessesRepository.BestGuesses.Any())
+    {
+        <div class="bestGuesses">
+            <strong>Melhores chutes: </strong>
+
+            @foreach (var guess in GuessesRepository.BestGuesses)
+            {
+                <span> @guess </span>
+            }
+        </div>
+    }
+    <a href="#" @onclick="Reset">recomeçar</a>
+</div>
+@code {
+    protected ElementReference currentGuessElement;
+    List<Tuple<string, List<GuessOutcome>>> guessHistory;
+    List<char?> currentGuess;
+    List<GuessOutcome> currentState;
+
+    public Index()
+    {
+        Build();
+    }
+
+    private void changeState(int index)
+    {
+        currentState[index] = (GuessOutcome) ((((int)currentState[index]) + 1) % 3);
+
+        StateHasChanged();
+    }
+
+    [JSInvokableAttribute("OnKeyDown")]
+    public void KeyDownHandler(string key)
+    {
+        key = key.ToLowerInvariant();
+
+        int index = -1;
+
+        for (int i = 0; i < currentGuess.Count; i++)
+        {
+            if (currentGuess[i] == null)
+            {
+                index = i;
+                break;
+            }
+        }
+
+        if (!key.All(char.IsLetter))
+            return;
+
+        if (index != -1 && key.Length == 1)
+        {
+            currentGuess[index] = key[0];
+        }
+
+        if (key == "backspace" || key == "delete")
+        {
+            if (index > 0)
+                currentGuess[index - 1] = null;
+            else
+                currentGuess[currentGuess.Count - 1] = null;
+        }
+
+        if(index == -1 && key == "enter")
+        {
+            GuessesRepository.InputGuess(string.Join("", currentGuess), currentState);
+
+            guessHistory.Add(Tuple.Create(string.Join("", currentGuess), currentState));
+
+            NewGuess();
+        }
+
+        StateHasChanged();
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            var dotNetReference = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("startListeningKeyDown", dotNetReference);
+        }            
+    }  
+
+    void Reset()
+    {
+        GuessesRepository.Reset();
+        Build();
+    }
+
+    void Build()
+    {
+        guessHistory = new List<Tuple<string, List<GuessOutcome>>>();
+        NewGuess();
+    }
+
+    void NewGuess()
+    {
+        currentGuess = new List<char?>() { null, null, null, null, null };
+        currentState = new List<GuessOutcome>() { GuessOutcome.NotPresent, GuessOutcome.NotPresent, GuessOutcome.NotPresent, GuessOutcome.NotPresent, GuessOutcome.NotPresent };
+    }
+}
